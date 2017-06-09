@@ -1,9 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace RowDictionary
 {
-    public class RowDictionary<TKey, TValue>
+    public class RowDictionary<TKey, TValue> : IEnumerable
     {
         public List<KeyValuePair<TKey, TValue>> Row { get; set; }
 
@@ -23,6 +24,11 @@ namespace RowDictionary
             if (!Row.Any(x => x.Key.Equals(key))) return false;
             value = Row.FirstOrDefault(x => x.Key.Equals(key)).Value;
             return true;
+        }
+
+        public IEnumerator GetEnumerator()
+        {
+            return Row.GetEnumerator();
         }
     }
 }
