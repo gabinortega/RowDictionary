@@ -6,13 +6,13 @@ using RowDictionary.Services;
 namespace RowDictionary.Tests.UnitTests.Services
 {
     [TestFixture]
-    public class WhenRequestingAEqualityComparerTests
+    public class EqualityServiceProviderWhenRequestingAEqualityComparerTests
     {
         [Test]
         public void ShouldBeCaseInsensitiveWhenIsAString()
         {
-            var equalityServiceProvider = new EqualityServiceProvider<string>();
-            var result = equalityServiceProvider.GetEqualityService(EqualityComparer<string>.Default);
+            var sut = new EqualityServiceProvider<string>();
+            var result = sut.GetEqualityService(EqualityComparer<string>.Default);
 
             Assert.That(result.GetType(),Is.EqualTo(StringComparer.InvariantCultureIgnoreCase.GetType()));
         }
@@ -20,8 +20,8 @@ namespace RowDictionary.Tests.UnitTests.Services
         [Test]
         public void ShouldBeATheOneProviderWhenIsNotString()
         {
-            var equalityServiceProvider = new EqualityServiceProvider<int>();
-            var result = equalityServiceProvider.GetEqualityService(EqualityComparer<int>.Default);
+            var sut = new EqualityServiceProvider<int>();
+            var result = sut.GetEqualityService(EqualityComparer<int>.Default);
 
             Assert.That(result.GetType(), Is.Not.EqualTo(StringComparer.InvariantCultureIgnoreCase.GetType()));
         }

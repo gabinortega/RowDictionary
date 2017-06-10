@@ -5,16 +5,16 @@ using RowDictionary.Services;
 namespace RowDictionary.Tests.UnitTests.Services
 {
     [TestFixture]
-    public class WhenTryingToGetAValueFromARowTests
+    public class RowServiceWhenTryingToGetAValueFromARowTests
     {
         private List<KeyValuePair<int, string>> _row;
-        private IRowService<int, string> _rowService;
+        private IRowService<int, string> _sut;
 
         [SetUp]
         public void BeforeEachTest()
         {
             _row = new List<KeyValuePair<int, string>>();
-            _rowService = new RowService<int, string>();
+            _sut = new RowService<int, string>();
         }
 
         [Test]
@@ -22,9 +22,9 @@ namespace RowDictionary.Tests.UnitTests.Services
         {
             var key = 55;
             var expectedValue = "expectedValue";
-            _rowService.Add(_row, key, expectedValue);
+            _sut.Add(_row, key, expectedValue);
             string resultValue;
-            _rowService.TryGetValue(_row, EqualityComparer<int>.Default, key, out resultValue);
+            _sut.TryGetValue(_row, EqualityComparer<int>.Default, key, out resultValue);
 
             Assert.That(resultValue, Is.EqualTo(expectedValue));
         }
@@ -34,9 +34,9 @@ namespace RowDictionary.Tests.UnitTests.Services
         {
             var key = 55;
             var expectedValue = "expectedValue";
-            _rowService.Add(_row, key, expectedValue);
+            _sut.Add(_row, key, expectedValue);
             string resultValue;
-            var resultBooleanValue = _rowService.TryGetValue(_row, EqualityComparer<int>.Default, key, out resultValue);
+            var resultBooleanValue = _sut.TryGetValue(_row, EqualityComparer<int>.Default, key, out resultValue);
 
             Assert.That(resultBooleanValue, Is.EqualTo(true));
         }
@@ -45,9 +45,9 @@ namespace RowDictionary.Tests.UnitTests.Services
         public void ShouldSetTheDefaultValueIfTheKeyDoesNotExists()
         {
             var nonExistentKey = 99;
-            _rowService.Add(_row, 00, "abcdf");
+            _sut.Add(_row, 00, "abcdf");
             string resultValue = "previosValue";
-            _rowService.TryGetValue(_row, EqualityComparer<int>.Default, nonExistentKey, out resultValue);
+            _sut.TryGetValue(_row, EqualityComparer<int>.Default, nonExistentKey, out resultValue);
 
             Assert.That(resultValue, Is.EqualTo(null));
         }
@@ -56,9 +56,9 @@ namespace RowDictionary.Tests.UnitTests.Services
         public void ShouldReturnFalseWhenTheKeyDoesNotExist()
         {
             var nonExistentKey = 99;
-            _rowService.Add(_row, 00, "abcdf");
+            _sut.Add(_row, 00, "abcdf");
             string resultValue;
-            var resultBooleanValue = _rowService.TryGetValue(_row, EqualityComparer<int>.Default, nonExistentKey, out resultValue);
+            var resultBooleanValue = _sut.TryGetValue(_row, EqualityComparer<int>.Default, nonExistentKey, out resultValue);
 
             Assert.That(resultBooleanValue, Is.EqualTo(false));
         }

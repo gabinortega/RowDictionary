@@ -4,15 +4,15 @@ using NUnit.Framework;
 namespace RowDictionary.Tests.IntegrationTests
 {
     [TestFixture]
-    public class WhenUsingBracketOperatorShould
+    public class RowDictionaryWhenUsingBracketOperatorTests
     {
         [Test]
         public void ShouldBeAbleToRetrieveTheValueUsingTheKeyWhenThereIsOnlyOneValueInserted()
         {
             var key = 55;
             var expectedValue = "expectedValue";
-            var dict = new RowDictionary<int, string> { { key, expectedValue } };
-            var result = dict[key];
+            var sut = new RowDictionary<int, string> { { key, expectedValue } };
+            var result = sut[key];
 
             Assert.That(result, Is.EqualTo(expectedValue));
         }
@@ -22,8 +22,8 @@ namespace RowDictionary.Tests.IntegrationTests
         {
             var key = 41;
             var anotherValue = "anotherValue";
-            var dict = new RowDictionary<int, string> { { 7, "abc" }, { 410, "era" }, { 8, "era" }, { key, anotherValue } };
-            var result = dict[key];
+            var sut = new RowDictionary<int, string> { { 7, "abc" }, { 410, "era" }, { 8, "era" }, { key, anotherValue } };
+            var result = sut[key];
 
             Assert.That(result, Is.EqualTo(anotherValue));
         }
@@ -33,11 +33,11 @@ namespace RowDictionary.Tests.IntegrationTests
         {
             var myKey = new { FirstName = "ABC", LastName = "DFG" };
             var WhenTheKeyIsAnObject = "WhenTheKeyIsAnObject";
-            var dict = new RowDictionary<object, string>
+            var sut = new RowDictionary<object, string>
             {
                 {myKey, WhenTheKeyIsAnObject}
             };
-            var result = dict[myKey];
+            var result = sut[myKey];
 
             Assert.That(result, Is.EqualTo(WhenTheKeyIsAnObject));
         }
@@ -45,12 +45,12 @@ namespace RowDictionary.Tests.IntegrationTests
         [Test]
         public void ShouldThrowAnExceptionIfTheKeyDoesNotExist()
         {
-            var dict = new RowDictionary<object, string>
+            var sut = new RowDictionary<object, string>
             {
                 {01, "Value01"},
             };
             string result;
-            Assert.That(() => result = dict["keyDoesNotExist"], Throws.TypeOf<KeyNotFoundException>());
+            Assert.That(() => result = sut["keyDoesNotExist"], Throws.TypeOf<KeyNotFoundException>());
         }
     }
 }

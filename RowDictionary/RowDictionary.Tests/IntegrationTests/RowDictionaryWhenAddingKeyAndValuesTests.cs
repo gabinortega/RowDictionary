@@ -3,19 +3,19 @@
 namespace RowDictionary.Tests.IntegrationTests
 {
     [TestFixture]
-    public class WhenAddingKeyAndValuesShould
+    public class RowDictionaryWhenAddingKeyAndValuesTests
     {
         [Test]
         public void ShouldBeAbleToAddANewValueAndRetriveTheSameValueUsingTheSameKey()
         {
             var key = "key";
-            var value = "Hola mundo";
-            var dict = new RowDictionary<string, string>();
-            dict.Add(key, value);
+            var expectedValue = "Hola mundo";
+            var sut = new RowDictionary<string, string>();
+            sut.Add(key, expectedValue);
             string result;
-            dict.TryGetValue(key, out result);
+            sut.TryGetValue(key, out result);
 
-            Assert.That(result, Is.EqualTo(value));
+            Assert.That(result, Is.EqualTo(expectedValue));
         }
 
         [Test]
@@ -23,10 +23,10 @@ namespace RowDictionary.Tests.IntegrationTests
         {
             var key = 01;
             var expectedValue = "expectedValue";
-            var dict = new RowDictionary<int, string>();
-            dict.Add(key, expectedValue);
+            var sut = new RowDictionary<int, string>();
+            sut.Add(key, expectedValue);
             string result;
-            dict.TryGetValue(key, out result);
+            sut.TryGetValue(key, out result);
 
             Assert.That(result, Is.EqualTo(expectedValue));
         }
@@ -36,13 +36,13 @@ namespace RowDictionary.Tests.IntegrationTests
         {
             var key = 04;
             var expectedValue = "expectedValue";
-            var dict = new RowDictionary<int, string>();
-            dict.Add(01, "01");
-            dict.Add(02, "02");
-            dict.Add(03, "03");
-            dict.Add(key, expectedValue);
+            var sut = new RowDictionary<int, string>();
+            sut.Add(01, "01");
+            sut.Add(02, "02");
+            sut.Add(03, "03");
+            sut.Add(key, expectedValue);
             string result;
-            dict.TryGetValue(key, out result);
+            sut.TryGetValue(key, out result);
 
             Assert.That(result, Is.EqualTo(expectedValue));
         }
@@ -52,10 +52,10 @@ namespace RowDictionary.Tests.IntegrationTests
         {
             var myKey = new { FirstName = "ABC", LastName = "DFG" };
             const string whenTheKeyIsAnObject = "WhenTheKeyIsAnObject";
-            var dict = new RowDictionary<object, string>();
-            dict.Add(myKey, whenTheKeyIsAnObject);
+            var sut = new RowDictionary<object, string>();
+            sut.Add(myKey, whenTheKeyIsAnObject);
             string result;
-            dict.TryGetValue(myKey, out result);
+            sut.TryGetValue(myKey, out result);
 
             Assert.That(result, Is.EqualTo(whenTheKeyIsAnObject));
         }
