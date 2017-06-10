@@ -1,10 +1,10 @@
 ﻿using System.Linq;
 using NUnit.Framework;
 
-namespace RowDictionary.Tests
+namespace RowDictionary.Tests.IntegrationTests
 {
     [TestFixture]
-    class WhenIteratingTheDictionaryShould
+    public class WhenIteratingTheDictionaryShould
     {
         [Test]
         public void ShouldIterateExactlyAsManyTimesAsKeysAdded()

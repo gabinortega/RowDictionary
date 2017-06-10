@@ -1,9 +1,9 @@
 ﻿using NUnit.Framework;
 
-namespace RowDictionary.Tests
+namespace RowDictionary.Tests.IntegrationTests
 {
     [TestFixture]
-    class WhenAddingKeyAndValuesShould
+    public class WhenAddingKeyAndValuesShould
     {
         [Test]
         public void ShouldBeAbleToAddANewValueAndRetriveTheSameValueUsingTheSameKey()
@@ -22,29 +22,29 @@ namespace RowDictionary.Tests
         public void ShouldBeAbleToRetrieveTheValueUsingTheKeyWhenThereIsOnlyOneValueInserted()
         {
             var key = 01;
-            var valueExpected = "valueExpected";
+            var expectedValue = "expectedValue";
             var dict = new RowDictionary<int, string>();
-            dict.Add(key, valueExpected);
+            dict.Add(key, expectedValue);
             string result;
             dict.TryGetValue(key, out result);
 
-            Assert.That(result, Is.EqualTo(valueExpected));
+            Assert.That(result, Is.EqualTo(expectedValue));
         }
 
         [Test]
         public void ShouldBeAbleToRetrieveTheValueUsingTheKeyWhenThereIsMoreThanOneValueInserted()
         {
             var key = 04;
-            var valueExpected = "valueExpected";
+            var expectedValue = "expectedValue";
             var dict = new RowDictionary<int, string>();
             dict.Add(01, "01");
             dict.Add(02, "02");
             dict.Add(03, "03");
-            dict.Add(key, valueExpected);
+            dict.Add(key, expectedValue);
             string result;
             dict.TryGetValue(key, out result);
 
-            Assert.That(result, Is.EqualTo(valueExpected));
+            Assert.That(result, Is.EqualTo(expectedValue));
         }
 
         [Test]

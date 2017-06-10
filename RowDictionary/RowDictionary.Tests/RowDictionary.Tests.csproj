@@ -34,6 +34,10 @@
       <HintPath>..\packages\NUnit.3.7.1\lib\net45\nunit.framework.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Rhino.Mocks, Version=3.6.0.0, Culture=neutral, PublicKeyToken=0b3305902db7183f, processorArchitecture=MSIL">
+      <HintPath>..\packages\RhinoMocks.3.6.1\lib\net\Rhino.Mocks.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -45,9 +49,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="WhenAddingKeyAndValuesShould.cs" />
-    <Compile Include="WhenCreatingANewDictionaryShould.cs" />
-    <Compile Include="WhenIteratingTheDictionaryShould.cs" />
+    <Compile Include="UnitTests\Services\WhenGettingAValueFromARowTests.cs" />
+    <Compile Include="UnitTests\Services\WhenRequestingAEqualityComparerTests.cs" />
+    <Compile Include="UnitTests\Services\WhenTryingToGetAValueFromARowTests.cs" />
+    <Compile Include="IntegrationTests\WhenAddingKeyAndValuesShould.cs" />
+    <Compile Include="IntegrationTests\WhenCreatingANewDictionaryShould.cs" />
+    <Compile Include="IntegrationTests\WhenIteratingTheDictionaryShould.cs" />
+    <Compile Include="IntegrationTests\WhenKeyIsAnStringShould.cs" />
+    <Compile Include="IntegrationTests\WhenUsingBracketOperatorShould.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -1,9 +1,9 @@
 ﻿using NUnit.Framework;
 
-namespace RowDictionary.Tests
+namespace RowDictionary.Tests.IntegrationTests
 {
     [TestFixture]
-    class WhenCreatingANewDictionaryShould
+    public class WhenCreatingANewDictionaryShould
     {
         [Test]
         public void ShouldBeAbleToSpecifyAnyTypeOfTheKeyPrimitiveExample()

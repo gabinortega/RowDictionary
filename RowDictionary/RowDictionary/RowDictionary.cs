@@ -1,29 +1,46 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
+using RowDictionary.Services;
 
 namespace RowDictionary
 {
     public class RowDictionary<TKey, TValue> : IEnumerable
     {
+        private readonly IEqualityComparer<TKey> _equalityService;
+        private readonly IRowService<TKey, TValue> _rowService;
         public List<KeyValuePair<TKey, TValue>> Row { get; set; }
 
-        public RowDictionary()
+        public RowDictionary(IEqualityComparer<TKey> comparer)
         {
             Row = new List<KeyValuePair<TKey, TValue>>();
+            _rowService = new RowService<TKey, TValue>();
+            _equalityService = new EqualityServiceProvider<TKey>().GetEqualityService(comparer);
+        }
+
+        public RowDictionary() : this(EqualityComparer<TKey>.Default)
+        {
+        }
+
+        public TValue this[TKey key]
+        {
+            get
+            {
+                return _rowService.Get(Row, _equalityService, key);
+            }
+            set
+            {
+                Add(key, value);
+            }
         }
 
         public void Add(TKey key, TValue value)
         {
-            Row.Add(new KeyValuePair<TKey, TValue>(key, value));
+            _rowService.Add(Row, key, value);
         }
 
         public bool TryGetValue(TKey key, out TValue value)
         {
-            value = default(TValue);
-            if (!Row.Any(x => x.Key.Equals(key))) return false;
-            value = Row.FirstOrDefault(x => x.Key.Equals(key)).Value;
-            return true;
+            return _rowService.TryGetValue(Row, _equalityService, key, out value);
         }
 
         public IEnumerator GetEnumerator()
