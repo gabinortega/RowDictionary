@@ -7,6 +7,23 @@ namespace RowDictionary.Tests.IntegrationTests
     public class RowDictionaryWhenUsingBracketOperatorTests
     {
         [Test]
+        public void ShouldBeAbleToAddUsingBracket()
+        {
+            //Arrange
+            var myKey = new { FirstName = "ABC", LastName = "DFG" };
+            var myValue = "myValue";
+            var sut = new RowDictionary<object, string>();
+
+            sut[myKey] = myValue;
+
+            //Act
+            var result = sut[myKey];
+
+            //Assert
+            Assert.That(result, Is.EqualTo(myValue));
+        }
+
+        [Test]
         public void ShouldBeAbleToRetrieveTheValueUsingTheKeyWhenTheKeyIsNonPrimitive()
         {
             //Arrange
