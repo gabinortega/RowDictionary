@@ -9,6 +9,7 @@ namespace RowDictionary.Tests.IntegrationTests
         [Test]
         public void ShouldIterateExactlyAsManyTimesAsKeysAdded()
         {
+            //Arrange
             var sut = new RowDictionary<int, string>();
             sut.Add(01, "Value01");
             sut.Add(02, "Value02");
@@ -17,7 +18,10 @@ namespace RowDictionary.Tests.IntegrationTests
             sut.Add(05, "Value05");
             sut.Add(06, "Value06");
 
+            //Act
             var totalItems = sut.Cast<object>().Count();
+
+            //Assert
             Assert.That(totalItems, Is.EqualTo(6));
         }
     }

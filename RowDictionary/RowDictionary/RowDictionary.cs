@@ -1,51 +1,68 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using RowDictionary.Models;
 using RowDictionary.Services;
 
 namespace RowDictionary
 {
-    public class RowDictionary<TKey, TValue> : IEnumerable
+    public class RowDictionary<TKey, TValue> : IEnumerable, IRowDictionary<TKey, TValue>
     {
-        private readonly IEqualityComparer<TKey> _equalityService;
-        private readonly IRowService<TKey, TValue> _rowService;
-        public List<KeyValuePair<TKey, TValue>> Row { get; set; }
+        private List<Cell<TKey, TValue>> _row;
+        private readonly IComparer<Cell<TKey, TValue>> _equalityService;
 
-        public RowDictionary(IEqualityComparer<TKey> comparer)
+        public RowDictionary(IComparer<TKey> keyComparer, IEqualityServiceProvider<TKey> equalityServiceProvider)
         {
-            Row = new List<KeyValuePair<TKey, TValue>>();
-            _rowService = new RowService<TKey, TValue>();
-            _equalityService = new EqualityServiceProvider<TKey>().GetEqualityService(comparer);
+            keyComparer = equalityServiceProvider.GetKeyComparer(keyComparer);
+            _equalityService = new CellComparer<TKey, TValue>(keyComparer);
+            _row = new List<Cell<TKey, TValue>>();
         }
 
-        public RowDictionary() : this(EqualityComparer<TKey>.Default)
+        public RowDictionary(IComparer<TKey> keyComparer) : this(keyComparer, new EqualityServiceProvider<TKey>())
         {
         }
 
-        public TValue this[TKey key]
+        public RowDictionary() : this(Comparer<TKey>.Default, new EqualityServiceProvider<TKey>())
         {
-            get
-            {
-                return _rowService.Get(Row, _equalityService, key);
-            }
-            set
-            {
-                Add(key, value);
-            }
-        }
-
-        public void Add(TKey key, TValue value)
-        {
-            _rowService.Add(Row, key, value);
-        }
-
-        public bool TryGetValue(TKey key, out TValue value)
-        {
-            return _rowService.TryGetValue(Row, _equalityService, key, out value);
         }
 
         public IEnumerator GetEnumerator()
         {
-            return Row.GetEnumerator();
+            return _row.GetEnumerator();
+        }
+
+        public TValue this[TKey key]
+        {
+            get { return Get(key); }
+            set { Add(key, value); }
+        }
+
+        public void Add(TKey key, TValue value)
+        {
+            _row.Add(new Cell<TKey, TValue>(key, value));
+            Sort();
+        }
+
+        private void Sort()
+        {
+            _row = _row.OrderBy(x => x, _equalityService).ToList();
+        }
+
+        public TValue Get(TKey key)
+        {
+            TValue result;
+            if (TryGetValue(key, out result)) return result;
+            throw new KeyNotFoundException();
+        }
+
+        public bool TryGetValue(TKey key, out TValue value)
+        {
+            value = default(TValue);
+            var cellToFind = new Cell<TKey, TValue>(key);
+            var cellIndex = _row.BinarySearch(cellToFind, _equalityService);
+            if (cellIndex < 0) return false;
+            value = _row[cellIndex].Value;
+            return true;
         }
     }
 }
