@@ -1,12 +1,18 @@
 # RowDictionary
 
-This project is not intended to be a replace of a Dictionary
+* Accepts any type as Key
+* Accepts any type as Value
+* Implements IEnumerable
+* Allows access using [] operator
+* When requesting a key if it isn't found throws an Exception
+    - but you can use TryGetValue instead
+* By default strings are compare Case Insensitive
+    - but you can define you own comparer just implement IComparer and initialize RowDictionary wit it.
+* Optimize Reads over Writes
+	- Sorting when adding a new key and value, and
+	- Using BinarySearch when Getting a new value
 
-It doesn't implement IDictionary
+### Next Steps
 
-To optimize read over write:
-
- * I would sort the list everytime add a new value or
- * Create a kind of hashtable using an Array of LinkedList.
-
-I'll create an example project and add a few more test cases in a next release
+* Add an example
+* Implement IDictionary
