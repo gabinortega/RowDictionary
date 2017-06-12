@@ -6,6 +6,14 @@
 * Allows access using [] operator
 * When requesting a key if it isn't found throws an Exception
     - but you can use TryGetValue instead
+* By default strings are compared Case Insensitive
+    - but you can define you own comparer just use StringComparer for strings or implement IComparer for any type of data and initialize RowDictionary with it.
+* Optimizes Reads over Writes
+	- Sorting when adding a new key and value, and
+	- Using BinarySearch when Getting a new value
+
+### (Tentative) Next Steps
+
 * By default strings are compare Case Insensitive
     - but you can define you own comparer just implement IComparer and initialize RowDictionary wit it.
 * Optimize Reads over Writes
